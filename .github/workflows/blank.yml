@@ -1,17 +1,25 @@
-name: CI
-
-on: [push]
-
+name: '🥚 updated for new starred repos'
+# This workflow runs at 00:30 everyday
+on:
+  schedule:
+    -
+      cron: '30 0 * * *'
 jobs:
   build:
-
-    runs-on: macOS-latest
-    
+    name: 'stargazed update'
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      -
+        name: 'Use GitHub Actions'
+        uses: actions/checkout@v1
+      -
+        name: 'Use Node.js 10.x'
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      -
+        name: 'Install Package'
+        run: 'npm install --global stargazed'
+      -
+        name: 'Update Repo'
+        run: 'stargazed --username "chandrasd" --token "3390b8cb0b84afb552167a15ccefa304c98b652b" --repo "Awesome-stars" --message "🥚 updated for new starred repos" --sort'
